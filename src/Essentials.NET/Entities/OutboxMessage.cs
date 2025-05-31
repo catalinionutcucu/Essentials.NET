@@ -13,9 +13,9 @@ public sealed class OutboxMessage : Entity
 
     public DateTime CreatedOn { get; private init; }
 
-    public DateTime? ModifiedOn { get; private set; }
+    public DateTime? ProcessedOn { get; private set; }
 
-    public string? ErrorDetails { get; private set; }
+    public string? ProcessingErrorDetails { get; private set; }
 
     public bool IsProcessedSuccessfully => State is OutboxMessageState.ProcessedSuccessfully;
 
@@ -52,15 +52,15 @@ public sealed class OutboxMessage : Entity
         }
 
         State = OutboxMessageState.ProcessedSuccessfully;
-        ModifiedOn = DateTime.UtcNow;
-        ErrorDetails = null;
+        ProcessedOn = DateTime.UtcNow;
+        ProcessingErrorDetails = null;
     }
 
     /// <summary>
     /// Marks the outbox message as processed unsuccessfully.
     /// </summary>
     /// <exception cref = "InvalidOperationException">Thrown if the message is already processed.</exception>
-    public void MarkAsProcessedUnsuccessfully(string errorDetails)
+    public void MarkAsProcessedUnsuccessfully(string processingErrorDetails)
     {
         if (IsProcessedSuccessfully)
         {
@@ -68,8 +68,8 @@ public sealed class OutboxMessage : Entity
         }
 
         State = OutboxMessageState.ProcessedUnsuccessfully;
-        ModifiedOn = DateTime.UtcNow;
-        ErrorDetails = errorDetails;
+        ProcessedOn = DateTime.UtcNow;
+        ProcessingErrorDetails = processingErrorDetails;
     }
 }
 
