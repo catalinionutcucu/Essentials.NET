@@ -41,7 +41,7 @@ public static class MediatorExtensions
         // Collection used to store discovered request handler types
         var requestHandlerTypes = new List<RequestHandlerType>();
 
-        // Iterates over the types that could be a request or a request handler
+        // Iterates over the types that could be a request or a request handler (non-abstract classes)
         foreach (var type in assembly.GetTypes().Where(type => type is { IsAbstract: false, IsInterface: false }))
         {
             // Iterates over the interfaces implemented by the type
