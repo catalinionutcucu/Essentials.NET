@@ -12,14 +12,14 @@ public static class JsonObjectExtensions
         return jsonObject.SelectToken(path) is not null;
     }
 
-    public static TValue GetValue<TValue>(this JObject jsonObject, string path)
+    public static TValue? GetValue<TValue>(this JObject jsonObject, string path)
     {
         ArgumentNullException.ThrowIfNull(jsonObject);
         ArgumentNullException.ThrowIfNull(path);
 
         var jsonToken = jsonObject.SelectToken(path);
 
-        if (jsonToken == null)
+        if (jsonToken is null)
         {
             return default;
         }
@@ -34,7 +34,7 @@ public static class JsonObjectExtensions
         }
     }
 
-    public static bool TryGetValue<TValue>(this JObject jsonObject, string path, out TValue value)
+    public static bool TryGetValue<TValue>(this JObject jsonObject, string path, out TValue? value)
     {
         ArgumentNullException.ThrowIfNull(jsonObject);
         ArgumentNullException.ThrowIfNull(path);
