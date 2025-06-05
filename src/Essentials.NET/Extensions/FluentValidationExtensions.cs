@@ -1,8 +1,8 @@
 ﻿using FluentValidation.Results;
 
-namespace Essentials.NET.Extensions.FluentValidation;
+namespace Essentials.NET.Extensions;
 
-public static class ValidationResultExtensions
+public static class FluentValidationExtensions
 {
     public static bool IsSuccess(this ValidationResult validationResult)
     {
