@@ -6,7 +6,7 @@ namespace Essentials.NET.Extensions;
 public static class HttpExtensions
 {
     /// <summary>
-    /// Deserializes the content of an HTTP response content to a value of type <typeparamref name = "TValue" /> using Newtonsoft.Json.
+    /// Deserializes the content of an HTTP response content to a value of type <typeparamref name = "TValue" />.
     /// </summary>
     /// <returns>A value of type <typeparamref name = "TValue" />.</returns>
     /// <exception cref = "InvalidCastException">Thrown when the HTTP response content cannot be deserialized to type <typeparamref name = "TValue" />.</exception>
