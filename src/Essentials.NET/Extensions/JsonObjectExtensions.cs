@@ -30,7 +30,7 @@ public static class JsonObjectExtensions
         }
         catch (Exception)
         {
-            throw new InvalidCastException($"Value of type '{jsonToken.Type}' cannot be cast to type '{typeof(TValue)}'.");
+            throw new InvalidCastException($"Value of type '{jsonToken.Type}' cannot be cast to type: '{typeof(TValue)}'.");
         }
     }
 

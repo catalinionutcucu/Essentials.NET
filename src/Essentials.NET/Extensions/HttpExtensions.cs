@@ -23,7 +23,7 @@ public static class HttpExtensions
         }
         catch (JsonException)
         {
-            throw new InvalidCastException($"HTTP response content cannot be deserialized to type '{typeof(TValue)}'.");
+            throw new InvalidCastException($"HTTP response content cannot be deserialized to type: '{typeof(TValue)}'.");
         }
     }
 
