@@ -9,9 +9,4 @@ public static class ObjectExtensions
     {
         return source is null ? null : JsonConvert.SerializeObject(source, Formatting.Indented);
     }
-
-    public static JObject ToJsonObject<TObject>(this TObject? source)
-    {
-        return source is null ? null : JObject.Parse(source.ToJsonString());
-    }
 }
