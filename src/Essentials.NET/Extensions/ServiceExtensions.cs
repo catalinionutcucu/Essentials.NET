@@ -18,9 +18,10 @@ public static class ServiceExtensions
         ArgumentNullException.ThrowIfNull(serviceCollection);
         ArgumentNullException.ThrowIfNull(assembly);
 
-        serviceCollection.RegisterScopedServices(assembly)
-                         .RegisterSingletonServices(assembly)
-                         .RegisterTransientServices(assembly);
+        serviceCollection
+            .RegisterScopedServices(assembly)
+            .RegisterSingletonServices(assembly)
+            .RegisterTransientServices(assembly);
 
         return serviceCollection;
     }
