@@ -21,16 +21,26 @@ public static class MediatorExtensions
 
         CheckRequestsForMatchingRequestHandlers(assembly);
 
-        serviceCollection.AddScoped<IMediator, Mediator>();
+        RegisterMediator(serviceCollection, assembly);
 
+        RegisterRequestHanders(serviceCollection, assembly);
+
+        return serviceCollection;
+    }
+
+    private static void RegisterMediator(IServiceCollection serviceCollection, Assembly assembly)
+    {
+        serviceCollection.AddScoped<IMediator, Mediator>();
+    }
+
+    private static void RegisterRequestHanders(IServiceCollection serviceCollection, Assembly assembly)
+    {
         serviceCollection.Scan(scan => scan
                                        .FromAssemblies(assembly)
                                        .AddClasses(filter => filter.AssignableTo(typeof(IRequestHandler<,>)))
                                        .UsingRegistrationStrategy(RegistrationStrategy.Throw)
                                        .AsImplementedInterfaces()
                                        .WithScopedLifetime());
-
-        return serviceCollection;
     }
 
     private static void CheckRequestsForMatchingRequestHandlers(Assembly assembly)
