@@ -9,12 +9,12 @@ public interface IMediator
     /// Sends a request of type <see cref = "IRequest{TResult}" /> to the corresponding handler of type <see cref = "IRequestHandler{TRequest,TResult}" />.
     /// </summary>
     /// <returns>A value of type <typeparamref name = "TResult" /> representing the result of the request.</returns>
-    /// <exception cref = "InvalidOperationException">Thrown if the request handler is not found.</exception>
+    /// <exception cref = "InvalidOperationException">Thrown if the request doesn't have matching request handler.</exception>
     public Task<TResult> SendAsync<TResult>(IRequest<TResult> request, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sends a request of type <see cref = "IRequest" /> to the corresponding handler of type <see cref = "IRequestHandler{IRequest}" />.
     /// </summary>
-    /// <exception cref = "InvalidOperationException">Thrown if the request handler is not found.</exception>
+    /// <exception cref = "InvalidOperationException">Thrown if the request doesn't have matching request handler.</exception>
     public Task SendAsync(IRequest request, CancellationToken cancellationToken = default);
 }

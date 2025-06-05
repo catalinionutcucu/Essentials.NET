@@ -1,4 +1,6 @@
-﻿using Essentials.NET.Mediator.Abstractions.Handlers;
+﻿using Essentials.NET.Mediator.Abstractions.Contracts;
+using Essentials.NET.Mediator.Abstractions.Handlers;
+using Essentials.NET.Mediator.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Scrutor;
 using System.Reflection;
@@ -11,10 +13,13 @@ public static class MediatorExtensions
     /// Registers the mediator and the request handlers implementing <see cref = "IRequestHandler{TRequest,TResult}" /> and <see cref = "IRequestHandler{TRequest}" />to the service collection.
     /// </summary>
     /// <returns>The service collection.</returns>
+    /// <exception cref = "InvalidOperationException">Thrown if a request doesn't have matching request handler.</exception>
     public static IServiceCollection AddMediator(this IServiceCollection serviceCollection, Assembly assembly)
     {
         ArgumentNullException.ThrowIfNull(serviceCollection);
         ArgumentNullException.ThrowIfNull(assembly);
+
+        CheckRequestsForMatchingRequestHandlers(assembly);
 
         serviceCollection.AddScoped<IMediator, Mediator>();
 
@@ -26,5 +31,76 @@ public static class MediatorExtensions
                                        .WithScopedLifetime());
 
         return serviceCollection;
+    }
+
+    private static void CheckRequestsForMatchingRequestHandlers(Assembly assembly)
+    {
+        // Collection used to store discovered request types
+        var requestTypes = new List<RequestType>();
+
+        // Collection used to store discovered request handler types
+        var requestHandlerTypes = new List<RequestHandlerType>();
+
+        // Iterates over the types that could be a request or a request handler
+        foreach (var type in assembly.GetTypes().Where(type => type is { IsAbstract: false, IsInterface: false }))
+        {
+            // Iterates over the interfaces implemented by the type
+            foreach (var implementedInterface in type.GetInterfaces())
+            {
+                var implementedInterfaceGenericArguments = implementedInterface.GetGenericArguments();
+
+                if (implementedInterface.Matches(typeof(IRequest<>)))
+                {
+                    requestTypes.Add(new RequestType
+                    {
+                        Type = type,
+                        ResultType = implementedInterfaceGenericArguments[0]
+                    });
+                }
+                else if (implementedInterface.Matches(typeof(IRequest)))
+                {
+                    requestTypes.Add(new RequestType
+                    {
+                        Type = type,
+                        ResultType = null
+                    });
+                }
+                else if (implementedInterface.Matches(typeof(IRequestHandler<,>)))
+                {
+                    requestHandlerTypes.Add(new()
+                    {
+                        Type = type,
+                        RequestType = new()
+                        {
+                            Type = implementedInterfaceGenericArguments[0],
+                            ResultType = implementedInterfaceGenericArguments[1]
+                        }
+                    });
+                }
+                else if (implementedInterface.Matches(typeof(IRequestHandler<>)))
+                {
+                    requestHandlerTypes.Add(new()
+                    {
+                        Type = type,
+                        RequestType = new()
+                        {
+                            Type = implementedInterfaceGenericArguments[0],
+                            ResultType = null
+                        }
+                    });
+                }
+            }
+        }
+
+        // Collection used to store discovered request types without matching request handler type
+        var unmatchedRequestTypes = requestTypes
+                                    .Where(requestType => !requestHandlerTypes.Any(requestHandlerType => requestHandlerType.RequestType.Equals(requestType)))
+                                    .ToList();
+
+        // Thrown if a request doesn't have matching request handler
+        if (unmatchedRequestTypes.Any())
+        {
+            throw new InvalidOperationException($"Request handlers not found for request types: {string.Join(", ", unmatchedRequestTypes.Select(requestType => $"'{requestType.Type}'"))}.");
+        }
     }
 }
