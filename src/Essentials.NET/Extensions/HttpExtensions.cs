@@ -28,11 +28,11 @@ public static class HttpExtensions
     }
 
     /// <summary>
-    /// Sends a POST request to the specified URI with request content as plain text.
+    /// Sends asynchronously a POST request to the specified URI with request content as plain text.
     /// </summary>
-    /// <returns>The response of the HTTP request.</returns>
+    /// <returns>The response of the HTTP POST request.</returns>
     /// <remarks>
-    /// This method sets the header <c>Content-Type</c> to <c>text/plain</c> and uses UTF-8 encoding for the request content. <br />
+    /// This method sets the header <c>Content-Type</c> to <c>text/plain</c> and uses <c>UTF-8</c> encoding for the request content. <br />
     /// This method is a convenience wrapper around <see cref = "HttpClient.PostAsync(string?, HttpContent?, CancellationToken)" />.
     /// </remarks>
     public static async Task<HttpResponseMessage> PostStringAsync(this HttpClient httpClient, string? requestUri, string? requestContent, CancellationToken cancellationToken = default)
@@ -41,11 +41,11 @@ public static class HttpExtensions
     }
 
     /// <summary>
-    /// Sends a POST request to the specified URI with request content as JSON.
+    /// Sends asynchronously a POST request to the specified URI with request content as JSON.
     /// </summary>
-    /// <returns>The response of the HTTP request.</returns>
+    /// <returns>The response of the HTTP POST request.</returns>
     /// <remarks>
-    /// This method sets the header <c>Content-Type</c> to <c>application/json</c> and uses UTF-8 encoding for the request content. <br />
+    /// This method sets the header <c>Content-Type</c> to <c>application/json</c> and uses <c>UTF-8</c> encoding for the request content. <br />
     /// This method is a convenience wrapper around <see cref = "HttpClient.PostAsync(string?, HttpContent?, CancellationToken)" />.
     /// </remarks>
     public static async Task<HttpResponseMessage> PostJsonAsync<TRequestContent>(this HttpClient httpClient, string? requestUri, TRequestContent? requestContent, CancellationToken cancellationToken = default)
@@ -54,11 +54,11 @@ public static class HttpExtensions
     }
 
     /// <summary>
-    /// Sends a PUT request to the specified URI with string request content.
+    /// Sends asynchronously a PUT request to the specified URI with string request content.
     /// </summary>
-    /// <returns>The response of the HTTP request.</returns>
+    /// <returns>The response of the HTTP PUT request.</returns>
     /// <remarks>
-    /// This method sets the header <c>Content-Type</c> to <c>text/plain</c> and uses UTF-8 encoding for the request content. <br />
+    /// This method sets the header <c>Content-Type</c> to <c>text/plain</c> and uses <c>UTF-8</c> encoding for the request content. <br />
     /// This method is a convenience wrapper around <see cref = "HttpClient.PutAsync(string?, HttpContent?, CancellationToken)" />.
     /// </remarks>
     public static async Task<HttpResponseMessage> PutStringAsync(this HttpClient httpClient, string? requestUri, string? requestContent, CancellationToken cancellationToken = default)
@@ -67,11 +67,11 @@ public static class HttpExtensions
     }
 
     /// <summary>
-    /// Sends a PUT request to the specified URI with JSON request content.
+    /// Sends asynchronously a PUT request to the specified URI with JSON request content.
     /// </summary>
-    /// <returns>The response of the HTTP request.</returns>
+    /// <returns>The response of the HTTP PUT request.</returns>
     /// <remarks>
-    /// This method sets the header <c>Content-Type</c> to <c>application/json</c> and uses UTF-8 encoding for the request content. <br />
+    /// This method sets the header <c>Content-Type</c> to <c>application/json</c> and uses <c>UTF-8</c> encoding for the request content. <br />
     /// This method is a convenience wrapper around <see cref = "HttpClient.PutAsync(string?, HttpContent?, CancellationToken)" />.
     /// </remarks>
     public static async Task<HttpResponseMessage> PutJsonAsync<TRequestContent>(this HttpClient httpClient, string? requestUri, TRequestContent? requestContent, CancellationToken cancellationToken = default)
