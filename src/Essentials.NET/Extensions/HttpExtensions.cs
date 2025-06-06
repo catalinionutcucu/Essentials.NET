@@ -9,7 +9,7 @@ public static class HttpExtensions
     /// Deserializes the content of an HTTP response content to a value of type <typeparamref name = "TValue" />.
     /// </summary>
     /// <returns>A value of type <typeparamref name = "TValue" />.</returns>
-    /// <exception cref = "InvalidCastException">Thrown when the HTTP response content cannot be deserialized to type <typeparamref name = "TValue" />.</exception>
+    /// <exception cref = "InvalidCastException">Thrown if the HTTP response content cannot be deserialized to type <typeparamref name = "TValue" />.</exception>
     /// <remarks>
     /// This method is intended for HTTP responses with the header <c>Content-Type</c> set to <c>application/json</c> .
     /// </remarks>
@@ -21,9 +21,9 @@ public static class HttpExtensions
         {
             return JsonConvert.DeserializeObject<TValue>(jsonString);
         }
-        catch (JsonException)
+        catch (JsonException exception)
         {
-            throw new InvalidCastException($"HTTP response content cannot be deserialized to type: '{typeof(TValue)}'.");
+            throw new InvalidCastException($"HTTP response content cannot be deserialized to type '{typeof(TValue).FullName}'.", exception);
         }
     }
 

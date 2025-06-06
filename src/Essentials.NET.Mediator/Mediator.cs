@@ -1,6 +1,5 @@
 ﻿using Essentials.NET.Mediator.Abstractions.Contracts;
 using Essentials.NET.Mediator.Abstractions.Handlers;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Essentials.NET.Mediator;
 
@@ -18,7 +17,16 @@ public sealed class Mediator : IMediator
     {
         ArgumentNullException.ThrowIfNull(request);
 
-        dynamic requestHandler = GetRequestHandler(request);
+        var requestType = request.GetType();
+
+        var requestHandlerType = typeof(IRequestHandler<,>).MakeGenericType(requestType, typeof(TResult));
+
+        dynamic requestHandler = _serviceProvider.GetService(requestHandlerType);
+
+        if (requestHandler is null)
+        {
+            throw new InvalidOperationException($"Request handler not found for request type '{requestType.FullName}'.");
+        }
 
         return await requestHandler.HandleAsync((dynamic)request, (dynamic)cancellationToken);
     }
@@ -28,40 +36,17 @@ public sealed class Mediator : IMediator
     {
         ArgumentNullException.ThrowIfNull(request);
 
-        dynamic requestHandler = GetRequestHandler(request);
-
-        await requestHandler.HandleAsync((dynamic)request, (dynamic)cancellationToken);
-    }
-
-    private dynamic GetRequestHandler<TResult>(IRequest<TResult> request)
-    {
-        var requestType = request.GetType();
-
-        var requestHandlerType = typeof(IRequestHandler<,>).MakeGenericType(requestType, typeof(TResult));
-
-        try
-        {
-            return _serviceProvider.GetRequiredService(requestHandlerType);
-        }
-        catch (InvalidOperationException)
-        {
-            throw new InvalidOperationException($"Request handler not found for request type: '{requestType.Name}'.");
-        }
-    }
-
-    private dynamic GetRequestHandler(IRequest request)
-    {
         var requestType = request.GetType();
 
         var requestHandlerType = typeof(IRequestHandler<>).MakeGenericType(requestType);
 
-        try
+        dynamic requestHandler = _serviceProvider.GetService(requestHandlerType);
+
+        if (requestHandler is null)
         {
-            return _serviceProvider.GetRequiredService(requestHandlerType);
+            throw new InvalidOperationException($"Request handler not found for request type '{requestType.FullName}'.");
         }
-        catch (InvalidOperationException)
-        {
-            throw new InvalidOperationException($"Request handler not found for request type: '{requestType.Name}'.");
-        }
+
+        await requestHandler.HandleAsync((dynamic)request, (dynamic)cancellationToken);
     }
 }

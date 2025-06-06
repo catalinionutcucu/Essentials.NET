@@ -110,7 +110,9 @@ public static class MediatorExtensions
         // Thrown if a request doesn't have matching request handler
         if (unmatchedRequestTypes.Any())
         {
-            throw new InvalidOperationException($"Request handlers not found for request types: {string.Join(", ", unmatchedRequestTypes.Select(requestType => $"'{requestType.Type}'"))}.");
+            throw new InvalidOperationException(unmatchedRequestTypes.Count == 1 ?
+                $"Request handler not found for request type '{unmatchedRequestTypes.First().Type}'." :
+                $"Request handlers not found for request types {string.Join(", ", unmatchedRequestTypes.Select(requestType => $"'{requestType.Type}'"))}.");
         }
     }
 }
