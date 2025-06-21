@@ -9,7 +9,7 @@ namespace Essentials.NET.Abstractions.Services;
 /// <remarks>
 /// If the service implements other interfaces, then it's registered as the implemented interfaces (except <see cref = "ITransientService" />). <br />
 /// If the service implements no other interfaces, then it's registered as the concrete type. <br />
-/// To register the service, the method <see cref="Extensions.ServiceExtensions.AddServices(IServiceCollection, Assembly)"/> must be called during application startup. <br />
+/// To register the service, the method <see cref = "Extensions.ServiceExtensions.AddServices(IServiceCollection, Assembly)" /> must be called during application startup. <br />
 /// <code>
 /// public interface ISomeTransientService : ITransientService;
 /// public class SomeTransientService : ISomeTransientService;
