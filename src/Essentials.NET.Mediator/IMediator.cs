@@ -1,5 +1,4 @@
-﻿using Essentials.NET.Mediator.Abstractions.Contracts;
-using Essentials.NET.Mediator.Abstractions.Handlers;
+﻿using Essentials.NET.Mediator.Abstractions;
 
 namespace Essentials.NET.Mediator;
 

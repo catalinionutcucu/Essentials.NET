@@ -1,5 +1,4 @@
-﻿using Essentials.NET.Mediator.Abstractions.Contracts;
-using Essentials.NET.Mediator.Abstractions.Handlers;
+﻿using Essentials.NET.Mediator.Abstractions;
 using Essentials.NET.Mediator.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Scrutor;

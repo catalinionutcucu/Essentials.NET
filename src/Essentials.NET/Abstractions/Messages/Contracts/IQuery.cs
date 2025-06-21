@@ -1,4 +1,4 @@
-﻿using Essentials.NET.Mediator.Abstractions.Contracts;
+﻿using Essentials.NET.Mediator.Abstractions;
 using Essentials.NET.Models;
 
 namespace Essentials.NET.Abstractions.Messages.Contracts;

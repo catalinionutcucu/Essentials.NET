@@ -1,6 +1,4 @@
-﻿using Essentials.NET.Mediator.Abstractions.Contracts;
-
-namespace Essentials.NET.Mediator.Abstractions.Handlers;
+﻿namespace Essentials.NET.Mediator.Abstractions;
 
 public interface IRequestHandler<TRequest, TResult>
     where TRequest : IRequest<TResult>
