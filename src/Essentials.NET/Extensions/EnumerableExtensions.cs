@@ -14,9 +14,9 @@ public static class EnumerableExtensions
         foreach (var item in enumerable)
         {
             action(item);
-        }
 
-        return enumerable;
+            yield return item;
+        }
     }
 
     /// <summary>
@@ -54,6 +54,6 @@ public static class EnumerableExtensions
             return collection.Count == 0;
         }
 
-        return enumerable.Any();
+        return !enumerable.Any();
     }
 }
